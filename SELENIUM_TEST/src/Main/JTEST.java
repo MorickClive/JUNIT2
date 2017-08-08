@@ -29,7 +29,6 @@ public class JTEST extends Common{
 		System.out.println("Before.");
 		
 		webDriver = new ChromeDriver();
-		Sleep(timer += 500);
 		webDriver.manage().window().maximize(); // to full screen.
 		}
 	
@@ -44,40 +43,32 @@ public class JTEST extends Common{
 		
 		// Navigate 
 		Sleep(500);
-		string = "body > div > center > table > tbody > tr:nth-child(2) > td > div > center >"
-				+ " table > tbody > tr > td:nth-child(2) > p > small > a:nth-child(6)";
-		webDriver.findElement(By.cssSelector(string)).click();
+		string = "/html/body/div/center/table/tbody/tr[2]/td/div/center/table/tbody/tr/td[2]/p/small/a[3]";
+		webDriver.findElement(By.xpath(string)).click();
 		
 		// Add user
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > center > table "
-				+ "> tbody > tr > td:nth-child(1) > div > center > table > tbody > tr:nth-child(1) > td:nth-child(2) > p > input";
-		webDriver.findElement(By.cssSelector(string)).sendKeys("user");
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[1]/td[2]/p/input";
+		webDriver.findElement(By.xpath(string)).sendKeys("user");
 		
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div "
-				+ "> center > table > tbody > tr:nth-child(2) > td:nth-child(2) > p > input[type='password']";
-		webDriver.findElement(By.cssSelector(string)).sendKeys("user");
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[2]/td[2]/p/input";
+		webDriver.findElement(By.xpath(string)).sendKeys("user");
 		
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) > div "
-				+ "> center > table > tbody > tr:nth-child(3) > td:nth-child(2) > p > input[type='button']";
-		webDriver.findElement(By.cssSelector(string)).click();
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[3]/td[2]/p/input";
+		webDriver.findElement(By.xpath(string)).click();
 		
 		// find login page
-		string = "body > div > center > table > tbody > tr:nth-child(2) > td > div > center > table >"
-				+ " tbody > tr > td:nth-child(2) > p > small > a:nth-child(7)";
-		webDriver.findElement(By.cssSelector(string)).click();
+		string = "/html/body/div/center/table/tbody/tr[2]/td/div/center/table/tbody/tr/td[2]/p/small/a[4]";
+		webDriver.findElement(By.xpath(string)).click();
 		Sleep(500);		
 		
 		// Begin log in
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) "
-				+ "> table > tbody > tr:nth-child(1) > td:nth-child(2) > p > input";		
-		webDriver.findElement(By.cssSelector(string)).sendKeys("user");
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > center > table > tbody > tr > td:nth-child(1) "
-				+ "> table > tbody > tr:nth-child(2) > td:nth-child(2) > p > input[type='password']";
-		webDriver.findElement(By.cssSelector(string)).sendKeys("user");
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[1]/td[2]/p/input";		
+		webDriver.findElement(By.xpath(string)).sendKeys("user");
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[2]/td[2]/p/input";
+		webDriver.findElement(By.xpath(string)).sendKeys("user");
 		
-		string = "body > table > tbody > tr > td.auto-style1 > form > div > "
-				+ "center > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(3) > td:nth-child(2) > p > input[type='button']";
-		webDriver.findElement(By.cssSelector(string)).click();
+		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[3]/td[2]/p/input";
+		webDriver.findElement(By.xpath(string)).click();
 		//fail("Not implemented.");
 		}
 	
@@ -85,7 +76,7 @@ public class JTEST extends Common{
 	public void A(){
 		System.out.println("After.");
 		
-		Sleep(500);
+		Sleep(2500);
 		webDriver.quit();
 		//fail("Not implemented.");
 		}
