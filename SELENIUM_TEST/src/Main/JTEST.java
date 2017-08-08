@@ -13,11 +13,14 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public class JTEST extends Common{
 	
 	private WebDriver webDriver;
-	
+	private HomePage w_Home;
+	private AddUserPage w_AddUserPage;
+	private LoginPage w_LoginPage;
 //	@BeforeClass
 //	public static void Bclass(){
 //		System.out.println("Before Class.");
@@ -31,6 +34,10 @@ public class JTEST extends Common{
 		// Create Chrome instance.
 		webDriver = new ChromeDriver();
 		webDriver.manage().window().maximize(); // to full screen.
+		
+		w_Home = PageFactory.initElements(webDriver, HomePage.class);
+		w_AddUserPage =PageFactory.initElements(webDriver, AddUserPage.class);
+		w_LoginPage = PageFactory.initElements(webDriver, LoginPage.class);
 		
 		// Assuming that webDriver does not describe as null, then success!
 		System.out.println(	"\t- Chrome has " + 
@@ -48,48 +55,35 @@ public class JTEST extends Common{
 		// Find website
 		webDriver.navigate().to("http://thedemosite.co.uk/");
 		Sleep(500); // wait for webpage to load (0.5 second)
-		
+		w_Home.navigate_addUser();
 		// Navigate to add user//title[@lang='word']
-		string = "//a[@href='addauser.php']";
-		webDriver.findElement(By.xpath(string)).click();
+		
 		Sleep(500); // wait for webpage to load (0.5 second)
 		// Add user
-		string = "//input[@name='username']";
-		webDriver.findElement(By.xpath(string)).sendKeys("user"); // username
-		
-		string = "//input[@name='password']";
-		webDriver.findElement(By.xpath(string)).sendKeys("user"); // password
-		
-		string = "//input[@value='save']";
-		webDriver.findElement(By.xpath(string)).click();
+		w_AddUserPage.input_Username("user");
+		w_AddUserPage.input_Password("user");
+		w_AddUserPage.submit_User();
 		
 		// find login page
-		string = "//a[@href='login.php']";
-		webDriver.findElement(By.xpath(string)).click();
+		w_AddUserPage.navigate_Login();
 		Sleep(500); // wait for webpage to load (0.5 second)
 		
 		// Begin log in
-		string = "//input[@name='username']";
-		webDriver.findElement(By.xpath(string)).sendKeys("user"); // username
-		string = "//input[@name='password']";
-		webDriver.findElement(By.xpath(string)).sendKeys("user"); // password
-		
-		string = "//input[@value='Test Login']";
-		webDriver.findElement(By.xpath(string)).click();
+		w_LoginPage.input_Username("user");
+		w_LoginPage.input_Password("user");
+		w_LoginPage.Login();
 		
 		////
 		// find out if success
 		////
 		
 		// check string displayed
-		string = "//blockquote/blockquote/font/center/b";
-		output = webDriver.findElement(By.xpath(string)).getText();
 		
 		// verify output of element
-		System.out.println(	"\tValue: " + output +
-							"\n\tSuccess: " +  (output.equals("**Successful Login**") ? "true" : "false"));
+		System.out.println(	"\tValue: " + w_LoginPage.validationCheck() +
+							"\n\tSuccess: " +  (w_LoginPage.validationCheck().equals("**Successful Login**") ? "true" : "false"));
 		// test assert
-		assertEquals(output, "**Successful Login**");
+		assertEquals(w_LoginPage.validationCheck(), "**Successful Login**");
 		}
 	
 	@After
