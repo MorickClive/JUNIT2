@@ -49,32 +49,32 @@ public class JTEST extends Common{
 		webDriver.navigate().to("http://thedemosite.co.uk/");
 		Sleep(500); // wait for webpage to load (0.5 second)
 		
-		// Navigate to add user
-		string = "/html/body/div/center/table/tbody/tr[2]/td/div/center/table/tbody/tr/td[2]/p/small/a[3]";
+		// Navigate to add user//title[@lang='word']
+		string = "//a[@href='addauser.php']";
 		webDriver.findElement(By.xpath(string)).click();
 		Sleep(500); // wait for webpage to load (0.5 second)
 		// Add user
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[1]/td[2]/p/input";
+		string = "//input[@name='username']";
 		webDriver.findElement(By.xpath(string)).sendKeys("user"); // username
 		
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[2]/td[2]/p/input";
+		string = "//input[@name='password']";
 		webDriver.findElement(By.xpath(string)).sendKeys("user"); // password
 		
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/div/center/table/tbody/tr[3]/td[2]/p/input";
+		string = "//input[@value='save']";
 		webDriver.findElement(By.xpath(string)).click();
 		
 		// find login page
-		string = "/html/body/div/center/table/tbody/tr[2]/td/div/center/table/tbody/tr/td[2]/p/small/a[4]";
+		string = "//a[@href='login.php']";
 		webDriver.findElement(By.xpath(string)).click();
 		Sleep(500); // wait for webpage to load (0.5 second)
 		
 		// Begin log in
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[1]/td[2]/p/input";		
+		string = "//input[@name='username']";
 		webDriver.findElement(By.xpath(string)).sendKeys("user"); // username
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[2]/td[2]/p/input";
+		string = "//input[@name='password']";
 		webDriver.findElement(By.xpath(string)).sendKeys("user"); // password
 		
-		string = "/html/body/table/tbody/tr/td[1]/form/div/center/table/tbody/tr/td[1]/table/tbody/tr[3]/td[2]/p/input";
+		string = "//input[@value='Test Login']";
 		webDriver.findElement(By.xpath(string)).click();
 		
 		////
@@ -82,7 +82,7 @@ public class JTEST extends Common{
 		////
 		
 		// check string displayed
-		string = "/html/body/table/tbody/tr/td[1]/big/blockquote/blockquote/font/center/b";
+		string = "//blockquote/blockquote/font/center/b";
 		output = webDriver.findElement(By.xpath(string)).getText();
 		
 		// verify output of element
