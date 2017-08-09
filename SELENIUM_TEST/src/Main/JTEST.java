@@ -2,7 +2,9 @@ package Main;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -75,7 +77,7 @@ public class JTEST extends Common{
         
         report.attachReporter(extentHtmlReporter);
         test = report.createTest("Automated results");
-		
+  		
 		}
 	
 	@Test
@@ -83,54 +85,55 @@ public class JTEST extends Common{
 		System.out.println("Test.");
 		
 		String string, output; // used to control Xpath and CSS selectors, output for string values
+		String username, pass;
 		
-		// Find website
-		webDriver.navigate().to("http://thedemosite.co.uk/");
-		
-		// Wait implementation
-		
-//		Wait<WebDriver> wait = new	 FluentWait<WebDriver>(webDriver)
-//		.withTimeout(30, TimeUnit.SECONDS)
-//		.pollingEvery(5, TimeUnit.SECONDS)
-//		.ignoring(NoSuchElementException.class);
-//
-//		WebElement foo = wait.until(new Function<WebDriver, WebElement>() 
-//			{ 
-//				public WebElement apply(WebDriver driver) {
-//				return driver.findElement(By.xpath( "//a[@href='addauser.php']"));
-//				}
-//			});
-//		
-		//Sleep(500); // wait for webpage to load (0.5 second)
-		w_Home.navigate_addUser();
-		// Navigate to add user//title[@lang='word']
-		
-		// Add user
-		w_AddUserPage.input_Username("user");
-		w_AddUserPage.input_Password("user");
-		w_AddUserPage.submit_User();
+		// get users
+        SpreadSheetReader sheetReader = new SpreadSheetReader(System.getProperty("user.dir") + "\\res\\testDetails.xlsx");
+        List<String> row;
+  
+		for(int x = 1; x <= 6; x++){
+			// deal with this user
+			row = sheetReader.readRow(x, "Inputs");
+			// assign details
+			username = row.get(1);
+			pass = row.get(2);
+			
+			// Find website
+			webDriver.navigate().to("http://thedemosite.co.uk/");
 
-		// find login page
-		w_AddUserPage.navigate_Login();
-		
-		
-		// Begin log in
-		w_LoginPage.input_Username("user");
-		w_LoginPage.input_Password("user");
-		w_LoginPage.Login();
-		
-		////
-		// find out if success
-		////
-		
-		// verify output of element
-		System.out.println(	"\tValue: " + w_LoginPage.validationCheck() +
-							"\n\tSuccess: " +  (w_LoginPage.validationCheck().equals("**Successful Login**") ? "true" : "false"));
-		// log for report
-		if(w_LoginPage.validationCheck().equals("**Successful Login**")){ test.log(Status.PASS, w_LoginPage.validationCheck());}
-		else{test.log(Status.FAIL, "Login Failed!!");}
-		// test assert
-		assertEquals(w_LoginPage.validationCheck(), "**Successful Login**");
+			// Wait implementation
+			w_Home.navigate_addUser();
+			
+			// Add user
+			test.log(Status.INFO, "<b>Add Details</b><br>" + "ID: " + row.get(0) + "<br>Username: " + username);
+			w_AddUserPage.input_Username(username);
+			w_AddUserPage.input_Password(pass);
+			w_AddUserPage.submit_User();
+			
+			// find login page
+			w_AddUserPage.navigate_Login();
+			
+			// Begin log in
+			test.log(Status.INFO, "<b>Login Details</b><br>" + "ID: " + row.get(0) + "<br>Username: " + username);
+			w_LoginPage.input_Username(username);
+			w_LoginPage.input_Password(pass);
+			w_LoginPage.Login();
+
+			////
+			// find out if success
+			////
+//			try {	ScreenshotHandler.take(webDriver, "Login_capture");	} 
+//			catch (IOException e) { e.printStackTrace();	}
+//			try {	test.addScreenCaptureFromPath(System.getProperty("user.dir") + "\\Login_capture.jpg"); }
+//			catch (IOException e) {	e.printStackTrace(); }
+			output = w_LoginPage.validationCheck().trim();
+			// log for report
+			if(output.equals("**Successful Login**")){ test.log(Status.PASS, w_LoginPage.validationCheck() + "\tID: " + row.get(0)); }
+			else{	test.log(Status.FAIL, "Login Failed!!" + "\t" + username + "\t" + pass + "\t" + output);	}
+			// test assert
+				assertEquals(w_LoginPage.validationCheck(), "**Successful Login**");
+			}
+		Sleep(500);
 		}
 	
 	@After
@@ -141,7 +144,7 @@ public class JTEST extends Common{
 		// Close Chrome
 		////
 		System.out.print("\t- Closing chrome.");
-		printDelayed("...", 500);
+		printDelayed("...", 150);
 		System.out.println();
 		webDriver.quit();
 		
@@ -162,8 +165,8 @@ public class JTEST extends Common{
 		// produce results after test
 		System.out.println("Producing report...");
 		webDriver = new ChromeDriver();
-		webDriver.navigate().to(System.getProperty("user.dir") + "\\Report.html");
-		
+		webDriver.manage().window().maximize(); // to full screen.
+		webDriver.navigate().to(System.getProperty("user.dir") + "\\Report.html");		
 		}
 	
 //	@AfterClass
