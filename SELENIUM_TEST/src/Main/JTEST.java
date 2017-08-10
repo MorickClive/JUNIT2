@@ -167,6 +167,12 @@ public class JTEST extends Common{
 		webDriver = new ChromeDriver();
 		webDriver.manage().window().maximize(); // to full screen.
 		webDriver.navigate().to(System.getProperty("user.dir") + "\\Report.html");		
+		for(int x = 4; x > 0; x--){
+			System.out.println("Application time remaining: " + (x*0.25f)*20);
+			Sleep(5000);
+		}
+			System.out.println("closing test report.");
+			webDriver.quit();
 		}
 	
 //	@AfterClass
